@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Regulação SRAG</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div class="marca">
+        <span class="cruz" aria-hidden="true">+</span> Regulação <b>SRAG</b>
+      </div>
+      <div id="identidade"></div>
+    </header>
+    <div class="layout">
+      <nav id="menu" aria-label="Navegação" hidden></nav>
+      <main id="conteudo"></main>
+    </div>
+    <div role="status" id="aviso" aria-live="polite"></div>
+    <template id="login"
+      ><section class="acesso">
+        <aside>
+          <small>SIVEP-Gripe · Nordeste</small>
+          <h1>Regulação de<br />leitos de UTI</h1>
+          <p>
+            Consulte a estimativa de internação posterior em UTI a partir dos
+            sinais registrados na admissão por SRAG.
+          </p>
+          <div class="linha"></div>
+          <p class="legenda">Projeto acadêmico · Dados de 2025</p>
+        </aside>
+        <form id="entrar" class="painel">
+          <h2>Acessar o sistema</h2>
+          <label
+            >E-mail<input
+              type="email"
+              name="email"
+              required
+              autocomplete="username" /></label
+          ><label
+            >Senha<input
+              type="password"
+              name="senha"
+              required
+              autocomplete="current-password" /></label
+          ><button>Entrar</button>
+        </form>
+      </section></template
+    >
+    <template id="ficha"
+      ><small>Admissão hospitalar</small>
+      <h1 id="tituloFicha">Nova análise</h1>
+      <p>
+        Use um caso fictício para a demonstração. Considere os sinais
+        disponíveis no dia da admissão.
+      </p>
+      <form id="formCaso">
+        <section class="painel">
+          <h2>Faixa etária</h2>
+          <label
+            >Idade no início dos sintomas<select id="idade" required>
+              <option value="">Selecionar faixa</option>
+            </select></label
+          >
+        </section>
+        <section class="painel">
+          <h2>Sinais e sintomas</h2>
+          <div id="sinais"></div>
+        </section>
+        <div class="acoes">
+          <button id="analisar">Salvar e analisar</button
+          ><button class="sec" type="button" id="salvar">
+            Salvar registro
+          </button>
+        </div>
+      </form></template
+    >
+    <template id="auditoria"
+      ><small>Gestão</small>
+      <h1>Auditoria</h1>
+      <form class="painel filtros">
+        <label>De<input type="date" name="inicio" /></label
+        ><label>Até<input type="date" name="fim" /></label
+        ><label>E-mail do usuário<input type="email" name="email" /></label
+        ><label
+          >Faixa<select name="faixa">
+            <option value="">Todas</option>
+            <option>Baixo</option>
+            <option>Médio</option>
+            <option>Alto</option>
+          </select></label
+        ><button>Filtrar</button>
+      </form>
+      <div id="lista"></div
+    ></template>
+  </body>
+</html>
