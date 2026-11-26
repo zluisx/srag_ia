@@ -1,31 +1,47 @@
 "use strict";
 const $ = (q, root = document) => root.querySelector(q);
 const main = $("#conteudo");
-let sessao, meta, pagina, registro, timer;
+let sessao, meta, pagina, registro, timer, navId = 0, salvando = false;
 const pct = (n) =>
   (n * 100).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + "%";
 function aviso(texto) {
   $("#aviso").textContent = texto;
   clearTimeout(timer);
-  timer = setTimeout(() => ($("#aviso").textContent = ""), 6000);
+  timer = setTimeout(() => ($("#aviso").textContent = ""), 10000);
 }
 async function api(path, method = "GET", body) {
   const headers = { "Content-Type": "application/json" };
   if (sessao) headers.Authorization = "Bearer " + sessao.token;
-  const r = await fetch("/api/" + path, {
-    method,
-    headers,
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
+  let r;
+  try {
+    r = await fetch("/api/" + path, {
+      method,
+      headers,
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+  } catch {
+    throw new Error("Sem conexão com o servidor. Tente novamente.");
+  }
   if (!r.ok) {
     const erro = await r.json().catch(() => ({}));
     if (r.status === 401 && sessao) sair();
-    throw new Error(
-      erro.detail ||
-        (r.status === 401
-          ? "Sessão ou credenciais inválidas."
+    const ingles = /^(Invalid|Failed|Required|Bad |Unsupported|Method|Internal|Request|Unauthorized|Forbidden|Not )/;
+    const padrao = {
+      400: "Os dados enviados são inválidos. Confira o formulário.",
+      401: "Sessão ou credenciais inválidas.",
+      403: "O perfil não tem acesso a este recurso.",
+      404: "Registro não encontrado.",
+      429: "Muitas tentativas. Aguarde alguns minutos.",
+    };
+    const e = new Error(
+      (erro.detail && !ingles.test(erro.detail) ? erro.detail : null) ||
+        padrao[r.status] ||
+        (r.status >= 500
+          ? "O servidor encontrou um erro. Tente novamente."
           : "A solicitação falhou (" + r.status + ")."),
     );
+    e.status = r.status;
+    throw e;
   }
   return r.status === 204 ? null : r.json();
 }
@@ -59,7 +75,8 @@ function template(id) {
   main.replaceChildren($("#" + id).content.cloneNode(true));
 }
 function sair() {
-  sessao = meta = registro = null;
+  sessao = meta = registro = pagina = null;
+  navId++;
   $("#menu").hidden = true;
   $("#identidade").replaceChildren();
   template("login");
@@ -70,7 +87,12 @@ function sair() {
       Object.fromEntries(new FormData(e.target)),
     );
     sessao = login;
-    meta = await api("modelo");
+    try {
+      meta = await api("modelo");
+    } catch (erro) {
+      sessao = meta = null;
+      throw erro;
+    }
     $("#identidade").replaceChildren(
       el("span", login.email),
       botao("Sair", sair, ""),
@@ -80,6 +102,7 @@ function sair() {
 }
 function navegar(nome) {
   pagina = nome;
+  navId++;
   const nav = $("#menu");
   nav.hidden = false;
   nav.replaceChildren();
@@ -124,22 +147,27 @@ function ficha(caso) {
   });
   const form = $("#formCaso");
   async function salvar(analisar) {
-    if (!form.reportValidity()) return;
+    if (salvando || !form.reportValidity()) return;
     const sinais = Object.fromEntries(new FormData(form));
     if (Object.values(sinais).every((v) => v === "9"))
       throw Error("Informe ao menos um sinal conhecido.");
     const entrada = { idade: Number($("#idade").value), sinais };
-    const c = await api(
-      registro ? "casos/" + registro : "casos",
-      registro ? "PUT" : "POST",
-      entrada,
-    );
-    registro = c.id;
-    if (analisar)
-      mostrarResultado(await api("casos/" + registro + "/predicoes", "POST"));
-    else {
-      await navegar("Meus registros");
-      aviso("Registro salvo.");
+    salvando = true;
+    try {
+      const c = await api(
+        registro ? "casos/" + registro : "casos",
+        registro ? "PUT" : "POST",
+        entrada,
+      );
+      registro = c.id;
+      if (analisar)
+        mostrarResultado(await api("casos/" + registro + "/predicoes", "POST"));
+      else {
+        await navegar("Meus registros");
+        aviso("Registro salvo.");
+      }
+    } finally {
+      salvando = false;
     }
   }
   form.onsubmit = executar(() => salvar(true));
@@ -233,8 +261,9 @@ function mostrarResultado(p) {
 }
 async function listarCasos() {
   titulo("Meus registros");
+  const minha = navId;
   const rows = await api("casos");
-  if (pagina !== "Meus registros") return;
+  if (pagina !== "Meus registros" || minha !== navId) return;
   const box = painel("Admissões cadastradas");
   if (!rows.length) box.append(el("p", "Nenhum registro cadastrado."));
   rows.forEach((c) => {
@@ -246,9 +275,14 @@ async function listarCasos() {
     );
     a.append(
       botao("Editar", () => ficha(c)),
-      botao("Analisar", async () =>
-        mostrarResultado(await api("casos/" + c.id + "/predicoes", "POST")),
-      ),
+      botao("Analisar", async () => {
+        try {
+          mostrarResultado(await api("casos/" + c.id + "/predicoes", "POST"));
+        } catch (e) {
+          if (e.status === 404) await listarCasos();
+          throw e;
+        }
+      }),
       botao("Arquivar", async () => {
         if (confirm("Arquivar este registro e preservar as predições?")) {
           await api("casos/" + c.id, "DELETE");
