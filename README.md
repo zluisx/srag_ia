@@ -12,7 +12,7 @@ Abra a pasta **projeto-srag**. No terminal PowerShell integrado, execute:
 powershell -ExecutionPolicy Bypass -File .\scripts\iniciar.ps1
 ```
 
-O inicializador usa o JDK 21 já preparado nesta máquina ou um JDK disponível em `JAVA_HOME` ou no PATH. O Maven Wrapper baixa o Maven e as dependências na primeira execução. Em outro computador, instale o JDK 21 antes desse passo. O ambiente Python e o CSV são necessários somente para reproduzir o treinamento.
+O inicializador usa o JDK 25 já preparado nesta máquina ou um JDK disponível em `JAVA_HOME` ou no PATH. O Maven Wrapper baixa o Maven e as dependências na primeira execução. Em outro computador, instale o JDK 25 antes desse passo. O ambiente Python e o CSV são necessários somente para reproduzir o treinamento.
 
 No primeiro uso do banco padrão, o terminal pede duas senhas de pelo menos 12 caracteres. As contas iniciais são `operador@demo.local` e `gestor@demo.local`. Abra [a aplicação](http://127.0.0.1:8080/) quando o terminal informar que o Spring iniciou. Interrompa o processo com Ctrl+C. Ao reiniciar, utilize as mesmas senhas. O H2 mantém os dados em `backend/data/`.
 
@@ -74,7 +74,7 @@ A regressão logística alcançou AP média de **0,0708** na validação cruzada
 
 ## Verificação
 
-Com JDK 21 configurado, execute `backend\mvnw.cmd -f backend/pom.xml test` a partir da raiz. O teste abre um servidor real em porta aleatória e usa H2 em memória. Ele cobre autenticação, validação de ficha, isolamento por perfil e proprietário, alteração, arquivamento, histórico e revisão.
+Com JDK 25 configurado, execute `backend\mvnw.cmd -f backend/pom.xml test` a partir da raiz. O teste abre um servidor real em porta aleatória e usa H2 em memória. Ele cobre autenticação, validação de ficha, isolamento por perfil e proprietário, alteração, arquivamento, histórico e revisão.
 
 As fontes técnicas incluem [Spring Boot](https://docs.spring.io/spring-boot/), [Spring Security](https://docs.spring.io/spring-security/reference/), [Springdoc OpenAPI](https://springdoc.org/), [H2](https://h2database.com/), [Apache Maven](https://maven.apache.org/), [scikit-learn](https://scikit-learn.org/stable/), [pandas](https://pandas.pydata.org/), [NumPy](https://numpy.org/), [SciPy](https://scipy.org/) e [joblib](https://joblib.readthedocs.io/). Documentação da base: [Ministério da Saúde](https://dadosabertos.saude.gov.br/dataset/srag-2019-a-2026).
 

@@ -4,7 +4,7 @@ Este manual descreve a entrega integrada da variante A, na branch `EznM/entrega-
 
 ## Como obter a versão documentada
 
-Em um computador novo, com Git e JDK 21, use o terminal do VS Code. O primeiro comando baixa a branch que contém a aplicação, o modelo treinado e o vídeo.
+Em um computador novo, com Git e JDK 25, use o terminal do VS Code. O primeiro comando baixa a branch que contém a aplicação, o modelo treinado e o vídeo.
 
 ```powershell
 git clone --branch EznM/entrega-integrada https://github.com/zluisx/srag_ia.git
@@ -94,7 +94,7 @@ Use o `id` devolvido em `POST /api/casos/{id}/predicoes`, com corpo vazio. Para 
 
 | Sintoma | Como verificar e resolver |
 |---|---|
-| O inicializador pede um JDK | Verifique `java -version` e `javac -version`. Configure `JAVA_HOME` para a pasta de um JDK 21 e reabra o terminal. |
+| O inicializador pede um JDK | Verifique `java -version` e `javac -version`. Configure `JAVA_HOME` para a pasta de um JDK 25 e reabra o terminal. |
 | A aplicação inicia, mas a conta recebe 401 | Confira o e-mail e a senha usados na criação da conta. Para uma sessão expirada, entre novamente. Alterar a variável de senha inicial não redefine a senha de uma conta já criada. |
 | A análise retorna 400 | Confira se a idade é um índice de 0 a 6, se os seis campos estão presentes e se ao menos um sinal tem resposta conhecida. |
 | A auditoria retorna 403 | A consulta geral exige uma sessão de gestor. O operador pode consultar seu próprio histórico em `GET /api/predicoes`. |
@@ -103,7 +103,7 @@ Use o `id` devolvido em `POST /api/casos/{id}/predicoes`, com corpo vazio. Para 
 
 ## Verificação e entrega
 
-A partir da raiz, com JDK 21 configurado, execute `.\backend\mvnw.cmd -f backend/pom.xml test`. O teste usa HTTP e H2 em memória. Ele verifica acesso por perfil, entradas inválidas, propriedade da ficha e preservação do histórico depois da edição e do arquivamento. [Teste de integração](../backend/src/test/java/br/edu/srag/FluxoTest.java)
+A partir da raiz, com JDK 25 configurado, execute `.\backend\mvnw.cmd -f backend/pom.xml test`. O teste usa HTTP e H2 em memória. Ele verifica acesso por perfil, entradas inválidas, propriedade da ficha e preservação do histórico depois da edição e do arquivamento. [Teste de integração](../backend/src/test/java/br/edu/srag/FluxoTest.java)
 
 Para apresentar, mostre a ficha acima, solicite a revisão como operador e localize o pedido como gestor. Termine na tela **Transparência**, explicando a diferença entre sensibilidade e precisão com os números do teste. O vídeo registra esse percurso. [Demonstração](demonstracao.mp4)
 
