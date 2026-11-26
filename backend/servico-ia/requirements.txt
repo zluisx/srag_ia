@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pandas
+numpy
+joblib
+shap
+# Use a MESMA versão do scikit-learn usada no Colab (veja "versao_scikit_learn" em modelo/metadados.json):
+scikit-learn==1.9.1

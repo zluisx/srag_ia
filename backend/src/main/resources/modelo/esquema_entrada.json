@@ -1,0 +1,291 @@
+{
+  "uf": {
+    "tipo": "categorico",
+    "valores_validos": [
+      "AL",
+      "BA",
+      "CE",
+      "MA",
+      "PB",
+      "PE",
+      "PI",
+      "RN",
+      "SE"
+    ],
+    "obrigatorio": false
+  },
+  "CS_SEXO": {
+    "tipo": "categorico",
+    "valores_validos": [
+      "F",
+      "M"
+    ],
+    "obrigatorio": false
+  },
+  "faixa_etaria": {
+    "tipo": "categorico",
+    "valores_validos": [
+      "1-4",
+      "12-17",
+      "18-39",
+      "40-59",
+      "5-11",
+      "60-69",
+      "70-79",
+      "80+",
+      "<1"
+    ],
+    "obrigatorio": false
+  },
+  "CS_GESTANT": {
+    "tipo": "categorico",
+    "valores_validos": [
+      1.0,
+      2.0,
+      3.0,
+      4.0,
+      5.0,
+      6.0
+    ],
+    "obrigatorio": false
+  },
+  "CS_ZONA": {
+    "tipo": "categorico",
+    "valores_validos": [
+      1.0,
+      2.0,
+      3.0
+    ],
+    "obrigatorio": false
+  },
+  "dias_sintoma_ate_internacao": {
+    "tipo": "inteiro",
+    "minimo": 0,
+    "maximo": 60,
+    "obrigatorio": false
+  },
+  "FEBRE": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "TOSSE": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "GARGANTA": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "DISPNEIA": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "DESC_RESP": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "SATURACAO": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "DIARREIA": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "VOMITO": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "DOR_ABD": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "FADIGA": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "PERD_OLFT": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "PERD_PALA": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "OUTRO_SIN": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "PUERPERA": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "CARDIOPATI": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "HEMATOLOGI": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "SIND_DOWN": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "HEPATICA": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "ASMA": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "DIABETES": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "NEUROLOGIC": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "PNEUMOPATI": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "IMUNODEPRE": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "RENAL": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "OBESIDADE": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "VACINA": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "VACINA_COV": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  },
+  "NOSOCOMIAL": {
+    "tipo": "binario",
+    "valores_validos": [
+      0,
+      1
+    ],
+    "obrigatorio": false
+  }
+}
