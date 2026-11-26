@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Ficha de admissão SRAG",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "idade",
+    "sinais"
+  ],
+  "properties": {
+    "idade": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 6,
+      "description": "Faixas em ordem: Menos de 1 ano, 1 a 4 anos, 5 a 17 anos, 18 a 39 anos, 40 a 59 anos, 60 a 79 anos, 80 anos ou mais"
+    },
+    "sinais": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "DISPNEIA",
+        "DESC_RESP",
+        "SATURACAO",
+        "FEBRE",
+        "TOSSE",
+        "FADIGA"
+      ],
+      "properties": {
+        "DISPNEIA": {
+          "type": "string",
+          "description": "Dispneia",
+          "enum": [
+            "1",
+            "2",
+            "9"
+          ]
+        },
+        "DESC_RESP": {
+          "type": "string",
+          "description": "Desconforto respiratório",
+          "enum": [
+            "1",
+            "2",
+            "9"
+          ]
+        },
+        "SATURACAO": {
+          "type": "string",
+          "description": "Saturação de O₂ abaixo de 95%",
+          "enum": [
+            "1",
+            "2",
+            "9"
+          ]
+        },
+        "FEBRE": {
+          "type": "string",
+          "description": "Febre",
+          "enum": [
+            "1",
+            "2",
+            "9"
+          ]
+        },
+        "TOSSE": {
+          "type": "string",
+          "description": "Tosse",
+          "enum": [
+            "1",
+            "2",
+            "9"
+          ]
+        },
+        "FADIGA": {
+          "type": "string",
+          "description": "Fadiga",
+          "enum": [
+            "1",
+            "2",
+            "9"
+          ]
+        }
+      },
+      "anyOf": [
+        {
+          "properties": {
+            "DISPNEIA": {
+              "enum": [
+                "1",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "DESC_RESP": {
+              "enum": [
+                "1",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "SATURACAO": {
+              "enum": [
+                "1",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "FEBRE": {
+              "enum": [
+                "1",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "TOSSE": {
+              "enum": [
+                "1",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "FADIGA": {
+              "enum": [
+                "1",
+                "2"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

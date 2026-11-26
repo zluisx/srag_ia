@@ -1,0 +1,195 @@
+campo	uso_ou_motivo
+NU_NOTIFIC	Identificador usado apenas para deduplicação.
+DT_NOTIFIC	Seleção da coorte ou verificação de cronologia.
+SEM_NOT	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_SIN_PRI	Seleção da coorte ou verificação de cronologia.
+SEM_PRI	Fora do conjunto mínimo de idade e sinais na admissão.
+SG_UF_NOT	Seleção da coorte ou verificação de cronologia.
+ID_REGIONA	Fora do conjunto mínimo de idade e sinais na admissão.
+CO_REGIONA	Fora do conjunto mínimo de idade e sinais na admissão.
+ID_MUNICIP	Fora do conjunto mínimo de idade e sinais na admissão.
+CO_MUN_NOT	Fora do conjunto mínimo de idade e sinais na admissão.
+CS_SEXO	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_NASC	Identificador indireto; idade agrupada basta.
+NU_IDADE_N	Entrada do pipeline.
+TP_IDADE	Entrada do pipeline.
+COD_IDADE	Fora do conjunto mínimo de idade e sinais na admissão.
+CS_GESTANT	Fora do conjunto mínimo de idade e sinais na admissão.
+CS_RACA	Fora do conjunto mínimo de idade e sinais na admissão.
+CS_ETINIA	Fora do conjunto mínimo de idade e sinais na admissão.
+CS_ESCOL_N	Fora do conjunto mínimo de idade e sinais na admissão.
+ID_PAIS	Fora do conjunto mínimo de idade e sinais na admissão.
+CO_PAIS	Fora do conjunto mínimo de idade e sinais na admissão.
+SG_UF	Fora do conjunto mínimo de idade e sinais na admissão.
+ID_RG_RESI	Fora do conjunto mínimo de idade e sinais na admissão.
+CO_RG_RESI	Fora do conjunto mínimo de idade e sinais na admissão.
+ID_MN_RESI	Fora do conjunto mínimo de idade e sinais na admissão.
+CO_MUN_RES	Fora do conjunto mínimo de idade e sinais na admissão.
+CS_ZONA	Fora do conjunto mínimo de idade e sinais na admissão.
+NOSOCOMIAL	Fora do conjunto mínimo de idade e sinais na admissão.
+AVE_SUINO	Fora do conjunto mínimo de idade e sinais na admissão.
+FEBRE	Entrada do pipeline.
+TOSSE	Entrada do pipeline.
+GARGANTA	Fora do conjunto mínimo de idade e sinais na admissão.
+DISPNEIA	Entrada do pipeline.
+DESC_RESP	Entrada do pipeline.
+SATURACAO	Entrada do pipeline.
+DIARREIA	Fora do conjunto mínimo de idade e sinais na admissão.
+VOMITO	Fora do conjunto mínimo de idade e sinais na admissão.
+OUTRO_SIN	Fora do conjunto mínimo de idade e sinais na admissão.
+OUTRO_DES	Fora do conjunto mínimo de idade e sinais na admissão.
+FATOR_RISC	Fora do conjunto mínimo de idade e sinais na admissão.
+PUERPERA	Fora do conjunto mínimo de idade e sinais na admissão.
+CARDIOPATI	Fora do conjunto mínimo de idade e sinais na admissão.
+HEMATOLOGI	Fora do conjunto mínimo de idade e sinais na admissão.
+SIND_DOWN	Fora do conjunto mínimo de idade e sinais na admissão.
+HEPATICA	Fora do conjunto mínimo de idade e sinais na admissão.
+ASMA	Fora do conjunto mínimo de idade e sinais na admissão.
+DIABETES	Fora do conjunto mínimo de idade e sinais na admissão.
+NEUROLOGIC	Fora do conjunto mínimo de idade e sinais na admissão.
+PNEUMOPATI	Fora do conjunto mínimo de idade e sinais na admissão.
+IMUNODEPRE	Fora do conjunto mínimo de idade e sinais na admissão.
+RENAL	Fora do conjunto mínimo de idade e sinais na admissão.
+OBESIDADE	Fora do conjunto mínimo de idade e sinais na admissão.
+OBES_IMC	Fora do conjunto mínimo de idade e sinais na admissão.
+OUT_MORBI	Fora do conjunto mínimo de idade e sinais na admissão.
+MORB_DESC	Fora do conjunto mínimo de idade e sinais na admissão.
+TABAG	Fora do conjunto mínimo de idade e sinais na admissão.
+VACINA	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_UT_DOSE	Fora do conjunto mínimo de idade e sinais na admissão.
+MAE_VAC	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_VAC_MAE	Fora do conjunto mínimo de idade e sinais na admissão.
+M_AMAMENTA	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_DOSEUNI	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_1_DOSE	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_2_DOSE	Fora do conjunto mínimo de idade e sinais na admissão.
+ANTIVIRAL	Fora do conjunto mínimo de idade e sinais na admissão.
+TP_ANTIVIR	Fora do conjunto mínimo de idade e sinais na admissão.
+OUT_ANTIV	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_ANTIVIR	Fora do conjunto mínimo de idade e sinais na admissão.
+HOSPITAL	Seleção da coorte ou verificação de cronologia.
+DT_INTERNA	Seleção da coorte ou verificação de cronologia.
+SG_UF_INTE	Fora do conjunto mínimo de idade e sinais na admissão.
+ID_RG_INTE	Fora do conjunto mínimo de idade e sinais na admissão.
+CO_RG_INTE	Fora do conjunto mínimo de idade e sinais na admissão.
+ID_MN_INTE	Fora do conjunto mínimo de idade e sinais na admissão.
+CO_MU_INTE	Fora do conjunto mínimo de idade e sinais na admissão.
+NM_UN_INTE	Fora do conjunto mínimo de idade e sinais na admissão.
+UTI	Rótulo da resposta.
+DT_ENTUTI	Data do próprio desfecho, usada apenas na definição da coorte.
+DT_SAIDUTI	Só existe após o desfecho.
+SUPORT_VEN	Suporte pode iniciar após a admissão.
+RAIOX_RES	Fora do conjunto mínimo de idade e sinais na admissão.
+RAIOX_OUT	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_RAIOX	Fora do conjunto mínimo de idade e sinais na admissão.
+AMOSTRA	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_COLETA	Fora do conjunto mínimo de idade e sinais na admissão.
+TP_AMOSTRA	Fora do conjunto mínimo de idade e sinais na admissão.
+OUT_AMOST	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_RESUL	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_PCR	Fora do conjunto mínimo de idade e sinais na admissão.
+POS_PCRFLU	Fora do conjunto mínimo de idade e sinais na admissão.
+TP_FLU_PCR	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_FLUASU	Fora do conjunto mínimo de idade e sinais na admissão.
+FLUASU_OUT	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_FLUBLI	Fora do conjunto mínimo de idade e sinais na admissão.
+FLUBLI_OUT	Fora do conjunto mínimo de idade e sinais na admissão.
+POS_PCROUT	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_VSR	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_PARA1	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_PARA2	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_PARA3	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_PARA4	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_ADENO	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_METAP	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_BOCA	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_RINO	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_OUTRO	Fora do conjunto mínimo de idade e sinais na admissão.
+DS_PCR_OUT	Fora do conjunto mínimo de idade e sinais na admissão.
+CLASSI_FIN	Classificação final retrospectiva.
+CLASSI_OUT	Fora do conjunto mínimo de idade e sinais na admissão.
+CRITERIO	Critério de confirmação retrospectiva.
+EVOLUCAO	Resultado da internação.
+DT_EVOLUCA	Data do desfecho clínico.
+DT_ENCERRA	Encerramento da investigação.
+DT_DIGITA	Fora do conjunto mínimo de idade e sinais na admissão.
+HISTO_VGM	Fora do conjunto mínimo de idade e sinais na admissão.
+PAIS_VGM	Fora do conjunto mínimo de idade e sinais na admissão.
+CO_PS_VGM	Fora do conjunto mínimo de idade e sinais na admissão.
+LO_PS_VGM	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_VGM	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_RT_VGM	Fora do conjunto mínimo de idade e sinais na admissão.
+PCR_SARS2	Fora do conjunto mínimo de idade e sinais na admissão.
+PAC_COCBO	Fora do conjunto mínimo de idade e sinais na admissão.
+PAC_DSCBO	Fora do conjunto mínimo de idade e sinais na admissão.
+OUT_ANIM	Fora do conjunto mínimo de idade e sinais na admissão.
+DOR_ABD	Fora do conjunto mínimo de idade e sinais na admissão.
+FADIGA	Entrada do pipeline.
+PERD_OLFT	Fora do conjunto mínimo de idade e sinais na admissão.
+PERD_PALA	Fora do conjunto mínimo de idade e sinais na admissão.
+TOMO_RES	Fora do conjunto mínimo de idade e sinais na admissão.
+TOMO_OUT	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_TOMO	Fora do conjunto mínimo de idade e sinais na admissão.
+TP_TES_AN	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_RES_AN	Fora do conjunto mínimo de idade e sinais na admissão.
+RES_AN	Fora do conjunto mínimo de idade e sinais na admissão.
+POS_AN_FLU	Fora do conjunto mínimo de idade e sinais na admissão.
+TP_FLU_AN	Fora do conjunto mínimo de idade e sinais na admissão.
+POS_AN_OUT	Fora do conjunto mínimo de idade e sinais na admissão.
+AN_SARS2	Fora do conjunto mínimo de idade e sinais na admissão.
+AN_VSR	Fora do conjunto mínimo de idade e sinais na admissão.
+AN_PARA1	Fora do conjunto mínimo de idade e sinais na admissão.
+AN_PARA2	Fora do conjunto mínimo de idade e sinais na admissão.
+AN_PARA3	Fora do conjunto mínimo de idade e sinais na admissão.
+AN_ADENO	Fora do conjunto mínimo de idade e sinais na admissão.
+AN_OUTRO	Fora do conjunto mínimo de idade e sinais na admissão.
+DS_AN_OUT	Fora do conjunto mínimo de idade e sinais na admissão.
+TP_AM_SOR	Fora do conjunto mínimo de idade e sinais na admissão.
+SOR_OUT	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_CO_SOR	Fora do conjunto mínimo de idade e sinais na admissão.
+TP_SOR	Fora do conjunto mínimo de idade e sinais na admissão.
+OUT_SOR	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_RES	Fora do conjunto mínimo de idade e sinais na admissão.
+RES_IGG	Fora do conjunto mínimo de idade e sinais na admissão.
+RES_IGM	Fora do conjunto mínimo de idade e sinais na admissão.
+RES_IGA	Fora do conjunto mínimo de idade e sinais na admissão.
+POV_CT	Fora do conjunto mínimo de idade e sinais na admissão.
+TP_POV_CT	Fora do conjunto mínimo de idade e sinais na admissão.
+TEM_CPF	Fora do conjunto mínimo de idade e sinais na admissão.
+ESTRANG	Fora do conjunto mínimo de idade e sinais na admissão.
+VACINA_COV	Fora do conjunto mínimo de idade e sinais na admissão.
+DOSE_1_COV	Fora do conjunto mínimo de idade e sinais na admissão.
+DOSE_2_COV	Fora do conjunto mínimo de idade e sinais na admissão.
+DOSE_REF	Fora do conjunto mínimo de idade e sinais na admissão.
+DOSE_2REF	Fora do conjunto mínimo de idade e sinais na admissão.
+DOSE_ADIC	Fora do conjunto mínimo de idade e sinais na admissão.
+DOS_RE_BI	Fora do conjunto mínimo de idade e sinais na admissão.
+FAB_COV_1	Fora do conjunto mínimo de idade e sinais na admissão.
+FAB_COV_2	Fora do conjunto mínimo de idade e sinais na admissão.
+FAB_COVRF	Fora do conjunto mínimo de idade e sinais na admissão.
+FAB_COVRF2	Fora do conjunto mínimo de idade e sinais na admissão.
+FAB_ADIC	Fora do conjunto mínimo de idade e sinais na admissão.
+FAB_RE_BI	Fora do conjunto mínimo de idade e sinais na admissão.
+LOTE_1_COV	Fora do conjunto mínimo de idade e sinais na admissão.
+LOTE_2_COV	Fora do conjunto mínimo de idade e sinais na admissão.
+LOTE_REF	Fora do conjunto mínimo de idade e sinais na admissão.
+LOTE_REF2	Fora do conjunto mínimo de idade e sinais na admissão.
+LOTE_ADIC	Fora do conjunto mínimo de idade e sinais na admissão.
+LOT_RE_BI	Fora do conjunto mínimo de idade e sinais na admissão.
+FNT_IN_COV	Fora do conjunto mínimo de idade e sinais na admissão.
+TRAT_COV	Fora do conjunto mínimo de idade e sinais na admissão.
+TIPO_TRAT	Fora do conjunto mínimo de idade e sinais na admissão.
+DT_TRT_COV	Fora do conjunto mínimo de idade e sinais na admissão.
+OUT_TRAT	Fora do conjunto mínimo de idade e sinais na admissão.
+SURTO_SG	Fora do conjunto mínimo de idade e sinais na admissão.
+CO_DETEC	Fora do conjunto mínimo de idade e sinais na admissão.
+VG_OMS	Fora do conjunto mínimo de idade e sinais na admissão.
+VG_OMSOUT	Fora do conjunto mínimo de idade e sinais na admissão.
+VG_LIN	Fora do conjunto mínimo de idade e sinais na admissão.
+VG_MET	Fora do conjunto mínimo de idade e sinais na admissão.
+VG_METOUT	Fora do conjunto mínimo de idade e sinais na admissão.
+VG_DTRES	Fora do conjunto mínimo de idade e sinais na admissão.
+VG_ENC	Fora do conjunto mínimo de idade e sinais na admissão.
+VG_REINF	Fora do conjunto mínimo de idade e sinais na admissão.
+VG_CODEST	Fora do conjunto mínimo de idade e sinais na admissão.
+REINF	Fora do conjunto mínimo de idade e sinais na admissão.

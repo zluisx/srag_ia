@@ -1,0 +1,57 @@
+{
+  "registros_apos_cada_regra": {
+    "Notificações no Nordeste": 52932,
+    "Identificador único e presente": 52932,
+    "Hospitalização confirmada": 48894,
+    "Alvo conhecido": 42984,
+    "Admissão em 2025": 41408,
+    "Sintomas e notificação até a admissão": 17961,
+    "Sem UTI ou com entrada posterior ao dia da admissão": 13451,
+    "Idade válida e unidade conhecida": 13451,
+    "Sinais válidos e ao menos um conhecido": 13405
+  },
+  "percentual_em_branco_antes_nordeste": {
+    "NU_NOTIFIC": 0.0,
+    "SG_UF_NOT": 0.0,
+    "HOSPITAL": 4.644,
+    "UTI": 15.89,
+    "DT_INTERNA": 10.06,
+    "DT_ENTUTI": 71.484,
+    "DT_NOTIFIC": 0.0,
+    "DT_SIN_PRI": 0.0,
+    "NU_IDADE_N": 0.0,
+    "TP_IDADE": 0.0,
+    "DISPNEIA": 8.267,
+    "DESC_RESP": 8.399,
+    "SATURACAO": 15.527,
+    "FEBRE": 9.089,
+    "TOSSE": 5.477,
+    "FADIGA": 22.856
+  },
+  "percentual_em_branco_apos": {
+    "NU_NOTIFIC": 0.0,
+    "SG_UF_NOT": 0.0,
+    "HOSPITAL": 0.0,
+    "UTI": 0.0,
+    "DT_INTERNA": 0.0,
+    "DT_ENTUTI": 95.778,
+    "DT_NOTIFIC": 0.0,
+    "DT_SIN_PRI": 0.0,
+    "NU_IDADE_N": 0.0,
+    "TP_IDADE": 0.0,
+    "DISPNEIA": 5.946,
+    "DESC_RESP": 8.266,
+    "SATURACAO": 18.433,
+    "FEBRE": 9.914,
+    "TOSSE": 4.237,
+    "FADIGA": 26.729
+  },
+  "percentual_ignorado_ou_vazio_apos": {
+    "DISPNEIA": 6.035,
+    "DESC_RESP": 8.4,
+    "SATURACAO": 18.866,
+    "FEBRE": 10.063,
+    "TOSSE": 4.319,
+    "FADIGA": 28.87
+  }
+}
