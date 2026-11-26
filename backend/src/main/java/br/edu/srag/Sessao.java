@@ -58,7 +58,8 @@ class Sessao {
         var estado = falhas.get(email);
         if (estado != null && estado[0] >= MAX_FALHAS && System.currentTimeMillis() - estado[1] < BLOQUEIO_MS)
             throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Muitas tentativas. Aguarde alguns minutos.");
-        var encontrado = usuarios.buscar(email);
+        // conta desativada é tratada como inexistente: mesma resposta e mesmo custo de tempo
+        var encontrado = usuarios.buscar(email).filter(Usuarios.Usuario::ativo);
         boolean valido = login.senha().getBytes(java.nio.charset.StandardCharsets.UTF_8).length <= 72
             && bcrypt.matches(login.senha(), encontrado.map(u -> u.senha()).orElse(hashFicticio));
         if (!valido || encontrado.isEmpty()) {

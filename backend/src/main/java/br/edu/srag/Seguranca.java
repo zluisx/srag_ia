@@ -10,6 +10,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.web.SecurityFilterChain;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
@@ -29,9 +30,19 @@ public class Seguranca {
     }
     @Bean BCryptPasswordEncoder senhas() { return new BCryptPasswordEncoder(12); }
 
-    @Bean JwtDecoder decoder(SecretKey chave) {
+    /** Recusa o token se a conta foi desativada ou mudou de perfil depois do login. */
+    @Bean JwtDecoder decoder(SecretKey chave, Usuarios usuarios) {
         var decoder = NimbusJwtDecoder.withSecretKey(chave).build();
-        decoder.setJwtValidator(JwtValidators.createDefaultWithIssuer("regulacao-srag"));
+        OAuth2TokenValidator<Jwt> contaVigente = jwt -> {
+            try {
+                var conta = usuarios.buscarPorId(Long.parseLong(jwt.getSubject()));
+                if (conta.isPresent() && conta.get().ativo() && conta.get().perfil().equals(jwt.getClaimAsString("scope")))
+                    return OAuth2TokenValidatorResult.success();
+            } catch (NumberFormatException ignorado) { }
+            return OAuth2TokenValidatorResult.failure(new OAuth2Error("invalid_token", "Conta inativa ou perfil alterado.", null));
+        };
+        decoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(
+            JwtValidators.createDefaultWithIssuer("regulacao-srag"), contaVigente));
         return decoder;
     }
 
@@ -41,7 +52,7 @@ public class Seguranca {
                 org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER)))
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(a -> a.requestMatchers("/api/login").permitAll()
-                .requestMatchers("/api/auditoria/**", "/api/auditoria").hasAuthority("SCOPE_GESTOR")
+                .requestMatchers("/api/auditoria/**", "/api/auditoria", "/api/usuarios/**", "/api/usuarios").hasAuthority("SCOPE_GESTOR")
                 .requestMatchers("/api/**").authenticated().anyRequest().permitAll())
             .oauth2ResourceServer(r -> r.jwt(Customizer.withDefaults())
                 .authenticationEntryPoint((req,res,erro) -> {

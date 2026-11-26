@@ -77,6 +77,32 @@
         </div>
       </form></template
     >
+    <template id="usuarios"
+      ><small>Gestão</small>
+      <h1>Usuários</h1>
+      <p>
+        Crie contas, altere o perfil e ative ou desative o acesso. A
+        desativação e a troca de perfil valem imediatamente.
+      </p>
+      <form id="formUsuario" class="painel filtros">
+        <label>E-mail<input type="email" name="email" required /></label
+        ><label
+          >Senha inicial (mín. 12 caracteres)<input
+            type="password"
+            name="senha"
+            minlength="12"
+            maxlength="72"
+            required
+            autocomplete="new-password" /></label
+        ><label
+          >Perfil<select name="perfil">
+            <option value="OPERADOR">Operador</option>
+            <option value="GESTOR">Gestor/auditor</option>
+          </select></label
+        ><button>Criar usuário</button>
+      </form>
+      <div id="listaUsuarios"></div
+    ></template>
     <template id="auditoria"
       ><small>Gestão</small>
       <h1>Auditoria</h1>

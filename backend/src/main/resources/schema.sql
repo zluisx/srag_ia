@@ -15,3 +15,5 @@ CREATE TABLE IF NOT EXISTS predicoes (
   faixa VARCHAR(10) NOT NULL, versao VARCHAR(60) NOT NULL,
   instante TIMESTAMP WITH TIME ZONE NOT NULL, revisao BOOLEAN DEFAULT FALSE NOT NULL
 );
+-- Conta ativa por padrão; também atualiza bancos criados antes desta coluna.
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS ativo BOOLEAN DEFAULT TRUE NOT NULL;

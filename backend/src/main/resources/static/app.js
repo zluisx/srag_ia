@@ -87,7 +87,7 @@ function navegar(nome) {
     "Nova análise",
     "Meus registros",
     "Histórico",
-    ...(sessao.perfil === "GESTOR" ? ["Auditoria"] : []),
+    ...(sessao.perfil === "GESTOR" ? ["Auditoria", "Usuários"] : []),
     "Transparência",
     "Privacidade",
   ];
@@ -100,6 +100,7 @@ function navegar(nome) {
   if (nome === "Meus registros") return listarCasos();
   if (nome === "Histórico") return historico();
   if (nome === "Auditoria") return auditoria();
+  if (nome === "Usuários") return usuarios();
   if (nome === "Transparência") return transparencia();
   privacidade();
 }
@@ -305,6 +306,54 @@ async function auditoria() {
   };
   form.onsubmit = executar(buscar);
   await buscar();
+}
+const PERFIS = { OPERADOR: "Operador", GESTOR: "Gestor/auditor" };
+async function usuarios() {
+  template("usuarios");
+  const form = $("#formUsuario"),
+    box = $("#listaUsuarios");
+  const carregar = async () => {
+    const rows = await api("usuarios");
+    if (pagina !== "Usuários") return;
+    box.replaceChildren();
+    const wrapper = el("div", undefined, "tabela"),
+      t = el("table"),
+      head = t.createTHead().insertRow();
+    ["E-mail", "Perfil", "Situação", ""].forEach((s) => head.append(el("th", s)));
+    const body = t.createTBody();
+    rows.forEach((u) => {
+      const tr = body.insertRow(),
+        propria = u.email === sessao.email;
+      [u.email, PERFIS[u.perfil], u.ativo ? "Ativo" : "Desativado"].forEach((s) =>
+        tr.append(el("td", s)),
+      );
+      const td = tr.insertCell();
+      if (propria) {
+        td.append(el("span", "Sua conta", "legenda"));
+        return;
+      }
+      const outro = u.perfil === "GESTOR" ? "OPERADOR" : "GESTOR";
+      td.append(
+        botao(u.ativo ? "Desativar" : "Ativar", async () => {
+          await api("usuarios/" + u.id + "/ativo", "PUT", { ativo: !u.ativo });
+          await carregar();
+        }),
+        botao("Tornar " + PERFIS[outro].toLowerCase(), async () => {
+          await api("usuarios/" + u.id + "/perfil", "PUT", { perfil: outro });
+          await carregar();
+        }),
+      );
+    });
+    wrapper.append(t);
+    box.append(wrapper);
+  };
+  form.onsubmit = executar(async () => {
+    await api("usuarios", "POST", Object.fromEntries(new FormData(form)));
+    form.reset();
+    aviso("Usuário criado.");
+    await carregar();
+  });
+  await carregar();
 }
 function transparencia() {
   titulo(
