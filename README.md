@@ -2,6 +2,8 @@
 
 Projeto final integrado da UNIFSA · Variante A. Aplicação acadêmica para a central de regulação consultar a probabilidade de internação posterior em UTI entre casos hospitalizados por SRAG. A unidade de análise é uma notificação. O formulário usa faixa etária e seis sinais disponíveis na admissão.
 
+O [manual técnico e de operação](docs/manual-do-projeto.md) acompanha uma ficha fictícia desde a admissão até a auditoria e reúne a arquitetura, o contrato da API e as evidências para a apresentação.
+
 ## Executar no VS Code
 
 Abra a pasta **projeto-srag**. No terminal PowerShell integrado, execute:
