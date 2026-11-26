@@ -60,7 +60,7 @@ class Sessao {
             throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Muitas tentativas. Aguarde alguns minutos.");
         var encontrado = usuarios.buscar(email);
         boolean valido = login.senha().getBytes(java.nio.charset.StandardCharsets.UTF_8).length <= 72
-            && bcrypt.matches(login.senha(), encontrado.map(Usuarios.Usuario::senha).orElse(hashFicticio));
+            && bcrypt.matches(login.senha(), encontrado.map(u -> u.senha()).orElse(hashFicticio));
         if (!valido || encontrado.isEmpty()) {
             falhas.merge(email, new long[]{1, System.currentTimeMillis()}, (a, b) ->
                 new long[]{b[1] - a[1] >= BLOQUEIO_MS ? 1 : a[0] + 1, b[1]});

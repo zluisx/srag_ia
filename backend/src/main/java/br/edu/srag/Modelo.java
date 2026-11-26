@@ -29,7 +29,7 @@ class Modelo {
             meta = json.readTree(metadados);
             tabela = json.readTree(escores);
         }
-        ordem = meta.get("ordem").values().stream().map(JsonNode::asString).toList();
+        ordem = meta.get("ordem").values().stream().map(n -> n.asString()).toList();
         var ref = meta.get("referencia");
         var chave = new StringBuilder(ref.get("idade").asString());
         ordem.forEach(c -> chave.append(ref.get(c).asString()));
