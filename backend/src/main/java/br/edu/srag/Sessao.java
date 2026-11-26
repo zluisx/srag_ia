@@ -27,6 +27,9 @@ class Sessao {
     private final BCryptPasswordEncoder bcrypt;
     private final SecretKey chave;
     private final String hashFicticio;
+    private static final int MAX_FALHAS = 5;
+    private static final long BLOQUEIO_MS = 5 * 60_000L;
+    private final java.util.concurrent.ConcurrentHashMap<String, long[]> falhas = new java.util.concurrent.ConcurrentHashMap<>();
 
     Sessao(Usuarios usuarios, BCryptPasswordEncoder bcrypt, SecretKey chave) {
         this.usuarios = usuarios;
@@ -51,11 +54,19 @@ class Sessao {
     @PostMapping("/login")
     @Operation(summary="Entrar por e-mail e senha e obter JWT válido por 30 minutos")
     Acesso login(@Valid @RequestBody Login login) throws JOSEException {
-        var encontrado = usuarios.buscar(login.email().trim().toLowerCase(Locale.ROOT));
+        String email = login.email().trim().toLowerCase(Locale.ROOT);
+        var estado = falhas.get(email);
+        if (estado != null && estado[0] >= MAX_FALHAS && System.currentTimeMillis() - estado[1] < BLOQUEIO_MS)
+            throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Muitas tentativas. Aguarde alguns minutos.");
+        var encontrado = usuarios.buscar(email);
         boolean valido = login.senha().getBytes(java.nio.charset.StandardCharsets.UTF_8).length <= 72
             && bcrypt.matches(login.senha(), encontrado.map(Usuarios.Usuario::senha).orElse(hashFicticio));
-        if (!valido || encontrado.isEmpty())
+        if (!valido || encontrado.isEmpty()) {
+            falhas.merge(email, new long[]{1, System.currentTimeMillis()}, (a, b) ->
+                new long[]{b[1] - a[1] >= BLOQUEIO_MS ? 1 : a[0] + 1, b[1]});
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "E-mail ou senha inválidos.");
+        }
+        falhas.remove(email);
         var u = encontrado.get();
         var agora = Instant.now();
         var claims = new JWTClaimsSet.Builder().issuer("regulacao-srag").subject(Long.toString(u.id()))

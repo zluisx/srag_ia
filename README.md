@@ -41,6 +41,8 @@ O scikit-learn faz o treino offline. O script salva o Pipeline completo e export
 | `SRAG_OPERADOR_SENHA`, `SRAG_GESTOR_SENHA` | Definem a senha ao criar cada conta. Contas existentes mantêm seu hash BCrypt. |
 | `SRAG_JWT_SECRET` | Segredo opcional de pelo menos 32 bytes. Na ausência, o processo gera uma chave aleatória e reiniciar encerra sessões. |
 
+Após 5 falhas de login seguidas para o mesmo e-mail, a API responde 429 por 5 minutos (controle em memória, reiniciado com o processo). As respostas incluem `Referrer-Policy: no-referrer` e `X-Content-Type-Options: nosniff`, e as listagens de histórico e auditoria retornam no máximo 500 registros, os mais recentes primeiro.
+
 O operador consulta suas próprias análises. O gestor consulta também o histórico geral. A interface mantém o token em memória por sessão da página. A documentação de governança descreve minimização, acesso, retenção e as medidas adicionais previstas para hospedagem.
 
 ## Dados e reprodução

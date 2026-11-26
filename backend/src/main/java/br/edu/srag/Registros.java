@@ -74,12 +74,12 @@ class Registros {
         List<Object> args = new ArrayList<>();
         if (dono!=null) { sql.append(" AND p.usuario_id=?"); args.add(dono); }
         if (caso!=null) { sql.append(" AND p.caso_id=?"); args.add(caso); }
-        if (email!=null) { sql.append(" AND u.email=?"); args.add(email); }
+        if (email!=null) { sql.append(" AND u.email=?"); args.add(email.trim().toLowerCase(Locale.ROOT)); }
         if (faixa!=null) { sql.append(" AND p.faixa=?"); args.add(faixa); }
         var zona = ZoneId.of("America/Sao_Paulo");
         if (inicio!=null) { sql.append(" AND p.instante>=?"); args.add(inicio.atStartOfDay(zona).toOffsetDateTime()); }
         if (fim!=null) { sql.append(" AND p.instante<?"); args.add(fim.plusDays(1).atStartOfDay(zona).toOffsetDateTime()); }
-        sql.append(" ORDER BY p.id DESC");
+        sql.append(" ORDER BY p.id DESC LIMIT 500");
         return db.sql(sql.toString()).params(args).query(this::lerPredicao).list();
     }
     void revisar(long id, long usuario) {

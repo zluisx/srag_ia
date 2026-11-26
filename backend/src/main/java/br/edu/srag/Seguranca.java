@@ -37,6 +37,8 @@ public class Seguranca {
 
     @Bean SecurityFilterChain acesso(HttpSecurity http) throws Exception {
         return http.csrf(c -> c.disable())
+            .headers(h -> h.referrerPolicy(r -> r.policy(
+                org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER)))
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(a -> a.requestMatchers("/api/login").permitAll()
                 .requestMatchers("/api/auditoria/**", "/api/auditoria").hasAuthority("SCOPE_GESTOR")
