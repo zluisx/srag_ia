@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Risco de UTI em SRAG</title>
+<style>
+  :root { --bg:#f4f6f9; --card:#fff; --txt:#1c2733; --mut:#5d6b7a; --bd:#dde3ea; --pri:#1b5fa8;
+          --ok:#1f7a4d; --okbg:#e3f4ea; --med:#9a6a00; --medbg:#fff3d6; --alto:#b3261e; --altobg:#fde7e5; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--txt); }
+  header { background:var(--pri); color:#fff; padding:10px 20px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+  header h1 { font-size:17px; margin:0 12px 0 0; }
+  nav { display:flex; gap:4px; flex-wrap:wrap; flex:1; }
+  nav button, .sair { background:transparent; color:#fff; border:1px solid transparent; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:14px; }
+  nav button.ativo { background:rgba(255,255,255,.2); }
+  nav button:hover, .sair:hover { border-color:rgba(255,255,255,.5); }
+  .quem { font-size:13px; opacity:.9; }
+  main { max-width:960px; margin:20px auto; padding:0 16px 40px; }
+  .card { background:var(--card); border:1px solid var(--bd); border-radius:10px; padding:18px; margin-bottom:16px; }
+  h2 { margin:0 0 12px; font-size:20px; } h3 { margin:0 0 10px; font-size:15px; color:var(--mut); text-transform:uppercase; letter-spacing:.04em; }
+  .grade { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+  label { display:block; font-size:13px; color:var(--mut); margin-bottom:3px; }
+  input, select { width:100%; padding:8px; border:1px solid var(--bd); border-radius:6px; font-size:14px; background:#fff; }
+  button.pri { background:var(--pri); color:#fff; border:0; padding:10px 18px; border-radius:6px; font-size:15px; cursor:pointer; }
+  button.sec { background:#fff; color:var(--pri); border:1px solid var(--pri); padding:8px 14px; border-radius:6px; cursor:pointer; }
+  button:disabled { opacity:.55; cursor:not-allowed; }
+  .erro { background:var(--altobg); color:var(--alto); border:1px solid #f3b9b4; padding:10px 12px; border-radius:8px; margin:12px 0; font-size:14px; }
+  .erro ul { margin:6px 0 0 18px; padding:0; }
+  .aviso { background:#eef4fb; border:1px solid #c9dcf0; color:#25476b; padding:10px 12px; border-radius:8px; font-size:13px; margin-top:14px; }
+  .faixa { border-radius:10px; padding:16px; margin-bottom:14px; }
+  .faixa.baixo { background:var(--okbg); color:var(--ok); } .faixa.medio { background:var(--medbg); color:var(--med); } .faixa.alto { background:var(--altobg); color:var(--alto); }
+  .faixa .t { font-size:22px; font-weight:700; } .faixa .p { font-size:14px; margin-top:4px; }
+  ul.fatores { list-style:none; padding:0; margin:0; } ul.fatores li { padding:6px 0; border-bottom:1px solid var(--bd); font-size:14px; }
+  .sobe { color:var(--alto); font-weight:600; } .desce { color:var(--ok); font-weight:600; }
+  table { width:100%; border-collapse:collapse; font-size:14px; } th, td { text-align:left; padding:8px; border-bottom:1px solid var(--bd); }
+  th { color:var(--mut); font-weight:600; font-size:12px; text-transform:uppercase; }
+  .tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:12px; font-weight:600; }
+  .tag.baixo { background:var(--okbg); color:var(--ok); } .tag.medio { background:var(--medbg); color:var(--med); } .tag.alto { background:var(--altobg); color:var(--alto); }
+  .filtros { display:flex; flex-wrap:wrap; gap:10px; align-items:end; margin-bottom:12px; } .filtros > div { min-width:140px; }
+  .pag { display:flex; gap:10px; align-items:center; margin-top:12px; font-size:14px; }
+  .login { max-width:380px; margin:60px auto; } .login .dica { font-size:12px; color:var(--mut); margin-top:12px; }
+  .mut { color:var(--mut); font-size:13px; }
+</style>
+</head>
+<body>
+<header id="topo"></header>
+<main id="app"></main>
+
+<script>
+/* ---------- utilidades ---------- */
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let sessao = JSON.parse(sessionStorage.getItem('sessao') || 'null');
+let esquema = null;
+
+const ROT = {
+  uf:'UF de atendimento', CS_SEXO:'Sexo', faixa_etaria:'Faixa etária', CS_GESTANT:'Gestante', CS_ZONA:'Zona de residência',
+  dias_sintoma_ate_internacao:'Dias entre sintomas e internação',
+  FEBRE:'Febre', TOSSE:'Tosse', GARGANTA:'Dor de garganta', DISPNEIA:'Dispneia (falta de ar)', DESC_RESP:'Desconforto respiratório',
+  SATURACAO:'Saturação de O2 < 95%', DIARREIA:'Diarreia', VOMITO:'Vômito', DOR_ABD:'Dor abdominal', FADIGA:'Fadiga',
+  PERD_OLFT:'Perda do olfato', PERD_PALA:'Perda do paladar', OUTRO_SIN:'Outros sintomas',
+  PUERPERA:'Puérpera', CARDIOPATI:'Doença cardiovascular crônica', HEMATOLOGI:'Doença hematológica crônica', SIND_DOWN:'Síndrome de Down',
+  HEPATICA:'Doença hepática crônica', ASMA:'Asma', DIABETES:'Diabetes mellitus', NEUROLOGIC:'Doença neurológica crônica',
+  PNEUMOPATI:'Outra pneumopatia crônica', IMUNODEPRE:'Imunodeficiência/imunodepressão', RENAL:'Doença renal crônica', OBESIDADE:'Obesidade',
+  VACINA:'Vacina contra gripe (última campanha)', VACINA_COV:'Vacina contra COVID-19', NOSOCOMIAL:'Infecção adquirida no hospital'
+};
+const OPC = {
+  CS_SEXO:{M:'Masculino', F:'Feminino'},
+  CS_GESTANT:{1:'1º trimestre',2:'2º trimestre',3:'3º trimestre',4:'Idade gestacional ignorada',5:'Não',6:'Não se aplica'},
+  CS_ZONA:{1:'Urbana',2:'Rural',3:'Periurbana'}
+};
+const GRUPOS = [
+  ['Dados do paciente', ['uf','CS_SEXO','faixa_etaria','CS_GESTANT','CS_ZONA','dias_sintoma_ate_internacao']],
+  ['Sintomas', ['FEBRE','TOSSE','GARGANTA','DISPNEIA','DESC_RESP','SATURACAO','DIARREIA','VOMITO','DOR_ABD','FADIGA','PERD_OLFT','PERD_PALA','OUTRO_SIN']],
+  ['Comorbidades', ['PUERPERA','CARDIOPATI','HEMATOLOGI','SIND_DOWN','HEPATICA','ASMA','DIABETES','NEUROLOGIC','PNEUMOPATI','IMUNODEPRE','RENAL','OBESIDADE']],
+  ['Vacinação e outros', ['VACINA','VACINA_COV','NOSOCOMIAL']]
+];
+const FAIXA = {
+  BAIXO:['baixo','Risco baixo de precisar de UTI'],
+  MEDIO:['medio','Risco médio de precisar de UTI'],
+  ALTO:['alto','Risco alto de precisar de UTI']
+};
+
+async function api(caminho, opcoes = {}) {
+  const h = {'Content-Type':'application/json'};
+  if (sessao) h.Authorization = 'Bearer ' + sessao.token;
+  let r;
+  try { r = await fetch(caminho, {...opcoes, headers:h}); }
+  catch { throw new Error('Não foi possível falar com a API. O back-end está rodando?'); }
+  if (r.status === 401 && sessao) { sair(); throw new Error('Sessão expirada. Entre de novo.'); }
+  const corpo = r.status === 204 ? null : await r.json().catch(() => null);
+  if (!r.ok) { const e = new Error(corpo?.mensagem || ('Erro ' + r.status)); e.detalhes = corpo?.detalhes || []; throw e; }
+  return corpo;
+}
+function caixaErro(err) {
+  const det = (err.detalhes || []).map(d => `<li>${esc(d)}</li>`).join('');
+  return `<div class="erro"><b>${esc(err.message)}</b>${det ? `<ul>${det}</ul>` : ''}</div>`;
+}
+const dataBR = iso => iso ? new Date(iso).toLocaleString('pt-BR') : '';
+const tagFaixa = f => `<span class="tag ${FAIXA[f]?.[0] || ''}">${esc(f)}</span>`;
+
+/* ---------- topo e navegação ---------- */
+const TELAS = { predicao:'Nova predição', minhas:'Minhas predições', auditoria:'Auditoria', transparencia:'Transparência', privacidade:'Privacidade' };
+let telaAtual = 'predicao';
+function topo() {
+  const t = document.getElementById('topo');
+  if (!sessao) { t.innerHTML = '<h1>Risco de UTI em SRAG</h1>'; return; }
+  const abas = Object.entries(TELAS).filter(([k]) => k !== 'auditoria' || sessao.perfil === 'GESTOR')
+    .map(([k, v]) => `<button data-t="${k}" class="${k === telaAtual ? 'ativo' : ''}">${v}</button>`).join('');
+  t.innerHTML = `<h1>Risco de UTI em SRAG</h1><nav>${abas}</nav><span class="quem">${esc(sessao.nome)} (${esc(sessao.perfil.toLowerCase())})</span><button class="sair">Sair</button>`;
+  t.querySelectorAll('nav button').forEach(b => b.onclick = () => ir(b.dataset.t));
+  t.querySelector('.sair').onclick = sair;
+}
+function sair() { sessao = null; sessionStorage.removeItem('sessao'); ir('login'); }
+function ir(tela) {
+  telaAtual = tela;
+  topo();
+  if (!sessao || tela === 'login') return telaLogin();
+  ({ predicao:telaPredicao, minhas:telaMinhas, auditoria:telaAuditoria, transparencia:telaTransparencia, privacidade:telaPrivacidade }[tela] || telaPredicao)();
+}
+const app = () => document.getElementById('app');
+
+/* ---------- login ---------- */
+function telaLogin() {
+  app().innerHTML = `<div class="card login"><h2>Entrar</h2>
+    <form id="f"><label>E-mail</label><input name="email" type="email" required value="operador@srag.local">
+    <label style="margin-top:10px">Senha</label><input name="senha" type="password" required value="operador12345">
+    <div id="msg"></div><button class="pri" style="margin-top:14px;width:100%">Entrar</button></form>
+    <div class="dica">Usuários de teste: operador@srag.local / operador12345 &nbsp;|&nbsp; gestor@srag.local / gestor12345</div></div>`;
+  document.getElementById('f').onsubmit = async e => {
+    e.preventDefault();
+    const f = e.target;
+    try {
+      const r = await api('/api/auth/login', { method:'POST', body:JSON.stringify({ email:f.email.value, senha:f.senha.value }) });
+      sessao = { token:r.token, nome:r.nome, perfil:r.perfil };
+      sessionStorage.setItem('sessao', JSON.stringify(sessao));
+      ir('predicao');
+    } catch (err) { document.getElementById('msg').innerHTML = caixaErro(err); }
+  };
+}
+
+/* ---------- predição ---------- */
+function controle(nome) {
+  const r = esquema[nome]; if (!r) return '';
+  let ctl;
+  if (r.tipo === 'binario') {
+    ctl = `<select name="${nome}"><option value="0">Não</option><option value="1">Sim</option></select>`;
+  } else if (r.tipo === 'categorico') {
+    const op = r.valores_validos.map(v => `<option value="${esc(v)}">${esc((OPC[nome] || {})[v] ?? v)}</option>`).join('');
+    ctl = `<select name="${nome}"><option value="">Não informado</option>${op}</select>`;
+  } else {
+    ctl = `<input type="number" step="1" name="${nome}" min="${r.minimo ?? ''}" max="${r.maximo ?? ''}" placeholder="${r.minimo ?? 0} a ${r.maximo ?? ''}">`;
+  }
+  return `<div><label>${esc(ROT[nome] || nome)}</label>${ctl}</div>`;
+}
+async function telaPredicao() {
+  app().innerHTML = '<div class="card">Carregando formulário...</div>';
+  try { if (!esquema) esquema = await api('/api/modelo/esquema'); }
+  catch (err) { app().innerHTML = `<div class="card"><h2>Nova predição</h2>${caixaErro(err)}</div>`; return; }
+  const usados = new Set(GRUPOS.flatMap(g => g[1]));
+  const outros = Object.keys(esquema).filter(k => !usados.has(k));
+  const grupos = [...GRUPOS, ...(outros.length ? [['Outros', outros]] : [])];
+  const blocos = grupos.map(([titulo, campos]) =>
+    `<div class="card"><h3>${titulo}</h3><div class="grade">${campos.map(controle).join('')}</div></div>`).join('');
+  app().innerHTML = `<h2>Nova predição</h2>
+    <form id="f"><div class="card"><h3>Caso</h3><div class="grade"><div><label>Código interno do caso (nunca use nome ou CPF)</label>
+      <input name="identificador" required maxlength="60" value="CASO-${Date.now().toString(36).toUpperCase()}"></div></div></div>
+    ${blocos}<div id="msg"></div><button class="pri" id="btn">Calcular risco</button></form><div id="res"></div>`;
+  document.getElementById('f').onsubmit = enviarPredicao;
+}
+async function enviarPredicao(e) {
+  e.preventDefault();
+  const f = e.target, btn = document.getElementById('btn');
+  const dados = {};
+  for (const [nome, r] of Object.entries(esquema)) {
+    const el = f.elements[nome]; if (!el || el.value === '') continue;
+    const numerico = r.tipo === 'binario' || r.tipo === 'inteiro' || (r.tipo === 'categorico' && r.valores_validos.some(v => typeof v === 'number'));
+    dados[nome] = numerico ? Number(el.value) : el.value;
+  }
+  document.getElementById('msg').innerHTML = ''; document.getElementById('res').innerHTML = '';
+  btn.disabled = true; btn.textContent = 'Calculando...';
+  try {
+    const reg = await api('/api/registros', { method:'POST', body:JSON.stringify({ identificador:f.elements.identificador.value.trim(), dados }) });
+    const pred = await api(`/api/registros/${reg.id}/predicoes`, { method:'POST' });
+    mostrarResultado(pred, reg.identificador);
+    f.elements.identificador.value = 'CASO-' + Date.now().toString(36).toUpperCase();
+  } catch (err) { document.getElementById('msg').innerHTML = caixaErro(err); }
+  finally { btn.disabled = false; btn.textContent = 'Calcular risco'; }
+}
+function nomeFator(f) {
+  const t = f.fator || '';
+  if (t.startsWith('bin__') || t.startsWith('num__')) { const k = t.slice(5); return ROT[k] || k; }
+  const m = t.match(/^cat__(.+?)_([^_]+)$/);
+  if (m) { const op = OPC[m[1]] || {}; return `${ROT[m[1]] || m[1]}: ${op[m[2]] ?? op[parseFloat(m[2])] ?? m[2]}`; }
+  return t;
+}
+function mostrarResultado(p, ident) {
+  const [cls, titulo] = FAIXA[p.faixa] || ['', p.faixa];
+  const fatores = (p.fatores || []).map(f => {
+    const sobe = f.efeito === 'aumenta o risco';
+    return `<li><span class="${sobe ? 'sobe' : 'desce'}">${sobe ? '▲ aumenta' : '▼ reduz'}</span> &nbsp;${esc(nomeFator(f))}</li>`;
+  }).join('') || '<li class="mut">Sem fatores informados.</li>';
+  const el = document.getElementById('res');
+  el.innerHTML = `<div class="card" style="margin-top:16px"><h2>Resultado</h2>
+    <div class="faixa ${cls}"><div class="t">${esc(titulo)}</div><div class="p">Probabilidade estimada pelo modelo: ${(p.probabilidade * 100).toFixed(0)}%</div></div>
+    <h3>Principais fatores</h3><ul class="fatores">${fatores}</ul>
+    <div class="aviso"><b>Este sistema é apoio à decisão.</b> A decisão final é sempre do profissional de saúde.
+      O resultado não substitui a avaliação clínica.</div>
+    <p class="mut">Caso ${esc(ident)} · predição nº ${p.id} · modelo ${esc(p.versaoModelo)} · ${dataBR(p.criadoEm)}</p>
+    <button class="sec" id="rev">Solicitar revisão humana</button><div id="revmsg"></div></div>`;
+  document.getElementById('rev').onclick = async () => {
+    const motivo = prompt('Explique por que este resultado precisa de revisão humana:');
+    if (!motivo || !motivo.trim()) return;
+    try {
+      await api(`/api/predicoes/${p.id}/revisao`, { method:'POST', body:JSON.stringify({ motivo }) });
+      document.getElementById('rev').disabled = true;
+      document.getElementById('revmsg').innerHTML = '<div class="aviso">Revisão humana solicitada. O gestor poderá ver o pedido na auditoria.</div>';
+    } catch (err) { document.getElementById('revmsg').innerHTML = caixaErro(err); }
+  };
+  el.scrollIntoView({ behavior:'smooth' });
+}
+
+/* ---------- listas ---------- */
+function tabela(linhas, comUsuario) {
+  if (!linhas.length) return '<p class="mut">Nenhuma predição encontrada.</p>';
+  return `<table><thead><tr><th>Nº</th><th>Caso</th>${comUsuario ? '<th>Usuário</th>' : ''}<th>Quando</th><th>Faixa</th><th>Prob.</th><th>Modelo</th><th>Revisão</th></tr></thead><tbody>` +
+    linhas.map(p => `<tr><td>${p.id}</td><td>${p.registroId}</td>${comUsuario ? `<td>${esc(p.usuarioNome)}</td>` : ''}<td>${dataBR(p.criadoEm)}</td>
+      <td>${tagFaixa(p.faixa)}</td><td>${(p.probabilidade * 100).toFixed(0)}%</td><td>${esc(p.versaoModelo)}</td>
+      <td>${p.revisaoSolicitada ? `<span title="${esc(p.revisaoMotivo)}">Solicitada</span>` : '—'}</td></tr>`).join('') + '</tbody></table>';
+}
+async function telaMinhas() {
+  app().innerHTML = '<div class="card"><h2>Minhas predições</h2><div id="c">Carregando...</div></div>';
+  try { const r = await api('/api/predicoes/minhas?size=50'); document.getElementById('c').innerHTML = tabela(r.conteudo, false); }
+  catch (err) { document.getElementById('c').innerHTML = caixaErro(err); }
+}
+function telaAuditoria() {
+  app().innerHTML = `<div class="card"><h2>Auditoria (histórico geral)</h2>
+    <form id="f" class="filtros">
+      <div><label>De</label><input type="date" name="inicio"></div><div><label>Até</label><input type="date" name="fim"></div>
+      <div><label>Faixa</label><select name="faixa"><option value="">Todas</option><option>BAIXO</option><option>MEDIO</option><option>ALTO</option></select></div>
+      <div><label>ID do usuário</label><input type="number" name="usuarioId" min="1"></div>
+      <div><label><input type="checkbox" name="somenteRevisao" style="width:auto"> Só com revisão</label></div>
+      <button class="pri">Filtrar</button></form><div id="c"></div></div>`;
+  const f = document.getElementById('f');
+  let pagina = 0;
+  async function carregar() {
+    const q = new URLSearchParams({ page:pagina, size:10 });
+    for (const k of ['inicio','fim','faixa','usuarioId']) if (f.elements[k].value) q.set(k, f.elements[k].value);
+    if (f.elements.somenteRevisao.checked) q.set('somenteRevisao', 'true');
+    const c = document.getElementById('c');
+    try {
+      const r = await api('/api/predicoes?' + q);
+      c.innerHTML = tabela(r.conteudo, true) + `<div class="pag"><button class="sec" id="ant" ${pagina === 0 ? 'disabled' : ''}>Anterior</button>
+        <span>Página ${r.pagina + 1} de ${Math.max(r.totalPaginas, 1)} · ${r.total} predições</span>
+        <button class="sec" id="prox" ${pagina + 1 >= r.totalPaginas ? 'disabled' : ''}>Próxima</button></div>`;
+      document.getElementById('ant').onclick = () => { pagina--; carregar(); };
+      document.getElementById('prox').onclick = () => { pagina++; carregar(); };
+    } catch (err) { c.innerHTML = caixaErro(err); }
+  }
+  f.onsubmit = e => { e.preventDefault(); pagina = 0; carregar(); };
+  carregar();
+}
+
+/* ---------- transparência e privacidade ---------- */
+async function telaTransparencia() {
+  app().innerHTML = '<div class="card"><h2>Transparência</h2><div id="c">Carregando...</div></div>';
+  let versao = '';
+  try { versao = (await api('/api/modelo/versao')).versao_modelo; } catch { versao = 'indisponível'; }
+  document.getElementById('c').innerHTML = `
+    <p><b>Versão do modelo em uso:</b> ${esc(versao)}</p>
+    ${String(versao).startsWith('mock') ? '<div class="aviso">Esta é uma versão de demonstração: o resultado NÃO vem de um modelo treinado.</div>' : ''}
+    <h3 style="margin-top:16px">Para que serve</h3><p>Estima o risco de um paciente internado com SRAG precisar de UTI, para apoiar a regulação de leitos.</p>
+    <h3>Dados usados no treino</h3><p>Notificações de SRAG hospitalizado do SIVEP-Gripe (OpenDataSUS), região Nordeste, 2026, tratadas conforme a LGPD.</p>
+    <h3>Métricas principais</h3><p>Constam no model card do projeto (docs/model_card.md). <span class="mut">[Grupo: copiar aqui as métricas finais do notebook.]</span></p>
+    <h3>Limitações</h3><ul><li>Treinado com dados de um único ano e de uma região.</li><li>Pode indicar mais alertas do que o necessário (prioriza não deixar de avisar quem precisa de UTI).</li><li>Campos não informados são preenchidos automaticamente com o valor mais comum.</li><li>Não considera exames, evolução clínica nem a avaliação do profissional.</li></ul>
+    <h3>Uso indevido</h3><p>Não use como único critério para negar ou conceder leito. Não substitui a decisão médica.</p>`;
+}
+function telaPrivacidade() {
+  app().innerHTML = `<div class="card"><h2>Privacidade</h2>
+    <h3>O que o sistema coleta</h3><p>Faixa etária, sexo, UF, sintomas, comorbidades e vacinação informados pelo operador; um código interno do caso; o usuário que fez a consulta e a data e hora.</p>
+    <p>O sistema <b>não</b> pede nome, CPF, data de nascimento, endereço nem telefone do paciente.</p>
+    <h3>Para que</h3><p>Calcular o risco de UTI e manter o histórico para auditoria.</p>
+    <h3>Por quanto tempo</h3><p class="mut">[Grupo: definir o prazo de retenção no documento de governança e escrever aqui.]</p>
+    <h3>Quem acessa</h3><p>O operador vê apenas os próprios registros. O gestor/auditor vê o histórico geral.</p>
+    <h3>Seus direitos</h3><p>Todo resultado pode ter revisão humana solicitada pelo botão "Solicitar revisão humana" (LGPD, art. 20).</p></div>`;
+}
+
+ir(sessao ? 'predicao' : 'login');
+</script>
+</body>
+</html>
