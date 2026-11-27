@@ -1,1 +1,9 @@
-
+.venv/
+__pycache__/
+backend/target/
+data/
+*.mv.db
+*.trace.db
+*.csv
+*.env
+.tools/

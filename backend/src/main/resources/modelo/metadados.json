@@ -1,0 +1,89 @@
+{
+  "versao": "uti-36737af7c12c",
+  "treino": "2026-11-26T19:33:09.769196+00:00",
+  "arquivo": "INFLUD25-23-11-2026.csv",
+  "sha256": "1c1acac956c5dc9a952baf99fc646b72cd3f6a3e8551d7ac973d6c333ae54648",
+  "modelo": "Regressão logística",
+  "coorte": {
+    "Notificações no Nordeste": 52932,
+    "Identificador único e presente": 52932,
+    "Hospitalização confirmada": 48894,
+    "Alvo conhecido": 42984,
+    "Admissão em 2025": 41408,
+    "Sintomas e notificação até a admissão": 17961,
+    "Sem UTI ou com entrada posterior ao dia da admissão": 13451,
+    "Idade válida e unidade conhecida": 13451,
+    "Sinais válidos e ao menos um conhecido": 13405
+  },
+  "n_treino": 10724,
+  "n_teste": 2681,
+  "positivos_treino": 453,
+  "positivos_teste": 113,
+  "ap_cv": {
+    "Referência": 0.04224167623421355,
+    "Regressão logística": 0.07077182981047055,
+    "Árvore de decisão": 0.06937083787591888
+  },
+  "limiar": 0.052671558100866225,
+  "alto": 0.09180858199059361,
+  "idades": [
+    "Menos de 1 ano",
+    "1 a 4 anos",
+    "5 a 17 anos",
+    "18 a 39 anos",
+    "40 a 59 anos",
+    "60 a 79 anos",
+    "80 anos ou mais"
+  ],
+  "sinais": {
+    "DISPNEIA": "Dispneia",
+    "DESC_RESP": "Desconforto respiratório",
+    "SATURACAO": "Saturação de O₂ abaixo de 95%",
+    "FEBRE": "Febre",
+    "TOSSE": "Tosse",
+    "FADIGA": "Fadiga"
+  },
+  "ordem": [
+    "DISPNEIA",
+    "DESC_RESP",
+    "SATURACAO",
+    "FEBRE",
+    "TOSSE",
+    "FADIGA"
+  ],
+  "dominio_sinais": {
+    "1": "Sim",
+    "2": "Não",
+    "9": "Ignorado"
+  },
+  "importancia_ap": {
+    "idade": 0.012325717739948816,
+    "DISPNEIA": 0.0014022836948883843,
+    "DESC_RESP": 0.0022822128263885132,
+    "SATURACAO": 0.022182993007616288,
+    "FEBRE": 0.00025020126525004125,
+    "TOSSE": -0.00018222661585815257,
+    "FADIGA": 0.006615490549555142
+  },
+  "referencia": {
+    "idade": "0",
+    "DISPNEIA": "1",
+    "DESC_RESP": "1",
+    "SATURACAO": "1",
+    "FEBRE": "1",
+    "TOSSE": "1",
+    "FADIGA": "2"
+  },
+  "teste": {
+    "sensibilidade": 0.5221238938053098,
+    "precisao": 0.06965761511216056,
+    "f2": 0.2270977675134719,
+    "ap": 0.0776708481771051,
+    "roc_auc": 0.6533423620875031,
+    "brier": 0.039823021759984596,
+    "vn": 1780,
+    "fp": 788,
+    "fn": 54,
+    "vp": 59
+  }
+}
